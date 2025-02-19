@@ -1,10 +1,9 @@
-import { PATH_DB } from '../constants/contacts.js';
-import fs from 'node:fs/promises';
+import { readContacts } from '../utils/readContacts.js';
 
 export const countContacts = async () => {
   try {
-    const count = await fs.readFile(PATH_DB, 'utf-8');
-    return JSON.parse(count).length;
+    const count = await readContacts();
+    return count.length;
   } catch (error) {
     if (error.code == 'ENOENT') {
       return 'File doesn`t exists';

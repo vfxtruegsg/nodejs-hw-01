@@ -1,10 +1,11 @@
-import { PATH_DB } from '../constants/contacts.js';
-import fs from 'node:fs/promises';
+import { readContacts } from '../utils/readContacts.js';
 
 export const getAllContacts = async () => {
   try {
-    const dataArray = await fs.readFile(PATH_DB, 'utf-8');
-    return JSON.parse(dataArray);
+    const dataArray = await readContacts();
+    console.log(dataArray);
+
+    return dataArray;
   } catch (error) {
     if (error.code == 'ENOENT') {
       return 'File doesn`t exists';

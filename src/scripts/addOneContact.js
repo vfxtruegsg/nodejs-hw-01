@@ -1,14 +1,13 @@
-import { PATH_DB } from '../constants/contacts.js';
-import fs from 'node:fs/promises';
 import { createFakeContact } from '../utils/createFakeContact.js';
+import { readContacts } from '../utils/readContacts.js';
+import { writeContacts } from '../utils/writeContacts.js';
 
 export const addOneContact = async () => {
   try {
     let data = [];
 
     try {
-      const fileContent = await fs.readFile(PATH_DB, 'utf-8');
-      data = JSON.parse(fileContent);
+      data = await readContacts();
     } catch (error) {
       if (error.code !== 'ENOENT') {
         return 'File doesn`t exists';
@@ -18,7 +17,7 @@ export const addOneContact = async () => {
 
     data.push(createFakeContact());
 
-    await fs.writeFile(PATH_DB, JSON.stringify(data));
+    await writeContacts(data);
   } catch (error) {
     return error.message;
   }
